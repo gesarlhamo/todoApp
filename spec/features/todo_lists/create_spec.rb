@@ -31,4 +31,23 @@ end
 	expect(page).to_not have_content("This is what I am doing today.")
 	
 	end
+
+	it "displays an error when the to do list has a title less than 3 characters" do
+	expect(TodoList.count).to eq(0)
+
+	visit "/todo_lists"
+	click_link "New todo list"
+	expect(page).to have_content("New todo_list")
+
+	fill_in "Title", with ""
+	fill_in "Description", with: "This is what I am doing today."
+	click_button "Creat Todo list"
+
+	expect(page).to have_content("error")
+	expect(TodoList.count).to eq(0)
+
+	visit "/todo_lists"
+	expect(page).to_not have_content("This is what I am doing today.")
+	
+	end
 end
